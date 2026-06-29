@@ -6,33 +6,31 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    overflow: hidden;
 }
 
 .timer-container {
     background-color: white;
     padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     text-align: center;
     position: relative;
-    width: 320px;
+    width: 360px;
+    z-index: 2;
 }
 
-/* 設定ボタン（右上） */
 .icon-btn {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 20px;
+    right: 20px;
     background: none;
-    color: #666;
+    color: #888;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
     cursor: pointer;
-    padding: 5px 10px;
 }
-.icon-btn:hover { color: #333; }
 
-/* 設定パネル */
 #config-panel {
     background-color: #f8f9fa;
     padding: 15px;
@@ -40,109 +38,125 @@ body {
     margin-bottom: 20px;
     border: 1px solid #eee;
 }
-#config-panel h3 {
-    margin-top: 0;
-    font-size: 1rem;
-    color: #444;
-}
+
 input[type="date"] {
-    padding: 8px;
+    padding: 10px;
     font-size: 1rem;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 10px;
     width: 80%;
 }
 
-/* メイン表示 */
+#save-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
 h1 {
-    font-size: 1.2rem;
-    color: #888;
-    margin: 0 0 10px 0;
-    letter-spacing: 0.1em;
+    font-size: 1.4rem;
+    color: #666;
+    margin: 0 0 15px 0;
 }
 
 #countdown-display {
     display: flex;
     justify-content: center;
     align-items: baseline;
-    color: #333;
+    margin-bottom: 10px;
 }
 
 #days-count {
-    font-size: 5.5rem;
+    font-size: 6rem;
     font-weight: bold;
-    color: #ff4757; /* 目立つ赤・ピンク系 */
-    margin: 0 10px;
+    color: #ff4757;
     line-height: 1;
+    margin: 0 10px;
 }
 
 .prefix, .suffix {
-    font-size: 1.5rem;
-    color: #444;
+    font-size: 1.6rem;
+    color: #333;
     font-weight: bold;
 }
 
-/* 共通ボタン */
-#save-btn {
-    background-color: #2ed573;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-#save-btn:hover { background-color: #26af5f; }
-
-/* 非表示にするためのクラス */
-/* --- 修正前 --- */
-/*
-.hidden {
-    display: none !important;
-}
-*/
-
-/* --- 修正後 --- */
-.hidden {
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    overflow: hidden;
-    /* transitionをいれると、ふわっと消えるようになります */
-    transition: all 0.3s ease; 
-}
-
-/* iOSでタップしやすいように、日付入力欄のスタイルを少し強化 */
-input[type="date"] {
-    padding: 12px; /* 指で押しやすいように少し広げる */
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    width: 85%;
-    -webkit-appearance: none; /* iOS独自のスタイルをリセット */
-    background-color: #fff;
-}
-
-/* 追加する「時間・分・秒」の見た目 */
 .time-sub {
     font-size: 1.2rem;
-    color: #555;
+    color: #444;
     font-weight: bold;
-    margin-top: 15px;
-    background-color: #f8f9fa;
-    padding: 8px 15px;
-    border-radius: 20px;
-    display: inline-block;
-    letter-spacing: 0.05em;
+    margin-bottom: 25px;
 }
 
-.time-sub span {
-    color: #333;
-    font-variant-numeric: tabular-nums; /* 数字の幅を揃えてガタツキを防ぐ */
-    margin: 0 2px;
+/* --- 【追加】プログレスバーとランナーの装飾 --- */
+.progress-container {
+    margin-top: 25px;
+    padding: 10px 0;
+}
+
+.progress-track {
+    position: relative;
+    height: 12px;
+    background-color: #e9ecef;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #4dabf7, #3b5bdb);
+    border-radius: 6px;
+    width: 0%; /* JSで動的に変更 */
+    transition: width 0.5s ease;
+}
+
+.runner {
+    position: absolute;
+    left: 0%; /* JSで動的に変更 */
+    top: -22px;
+    font-size: 1.6rem;
+    transform: translateX(-50%);
+    transition: left 0.5s ease;
+    z-index: 3;
+}
+
+.goal-tape {
+    position: absolute;
+    right: -5px;
+    top: -18px;
+    font-size: 1.3rem;
+    z-index: 2;
+}
+
+/* ゴール時の派手な演出 */
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff922b;
+    z-index: 10;
+    animation: pop 0.5s ease-out infinite alternate;
+}
+
+@keyframes pop {
+    0% { transform: scale(0.95); }
+    100% { transform: scale(1.05); }
+}
+
+.hidden {
+    display: none !important;
 }
