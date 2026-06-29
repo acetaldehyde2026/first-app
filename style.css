@@ -96,6 +96,34 @@ h1 {
 #save-btn:hover { background-color: #26af5f; }
 
 /* 非表示にするためのクラス */
+/* --- 修正前 --- */
+/*
 .hidden {
     display: none !important;
+}
+*/
+
+/* --- 修正後 --- */
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    overflow: hidden;
+    /* transitionをいれると、ふわっと消えるようになります */
+    transition: all 0.3s ease; 
+}
+
+/* iOSでタップしやすいように、日付入力欄のスタイルを少し強化 */
+input[type="date"] {
+    padding: 12px; /* 指で押しやすいように少し広げる */
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: 85%;
+    -webkit-appearance: none; /* iOS独自のスタイルをリセット */
+    background-color: #fff;
 }
