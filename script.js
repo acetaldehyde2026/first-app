@@ -1,15 +1,21 @@
-// 画面の要素を捕まえる
+// --- 画面の要素を捕まえる ---
+// メインのカウントダウン表示
 const daysCount = document.getElementById('days-count');
 const hoursCount = document.getElementById('hours-count');
 const minutesCount = document.getElementById('minutes-count');
 const secondsCount = document.getElementById('seconds-count');
 
-// 目標の日付（例として2024年の12月31日を設定していますが、本来は設定から取得します）
-// ここでは例として、今日から32日後の日付を自動で設定します。
+// 設定ボタンと設定パネル
+const configToggle = document.getElementById('config-toggle'); // 設定ボタン（歯車と「設定」の文字）
+const configPanel = document.getElementById('config-panel'); // 設定パネル（日付入力欄）
+
+// --- 目標日付（本来は設定から取得） ---
+// ここでは例として、今日から32日後の日付を設定します。
 const targetDate = new Date();
 targetDate.setDate(targetDate.getDate() + 32); 
 targetDate.setHours(0, 0, 0, 0); // 深夜0時を目標にする
 
+// --- カウントダウンを計算して表示する関数 ---
 function calculateCountdown() {
     const now = new Date();
     const diffTime = targetDate.getTime() - now.getTime();
@@ -37,6 +43,20 @@ function calculateCountdown() {
     secondsCount.textContent = String(diffSeconds).padStart(2, '0');
 }
 
+// --- 【修正のポイント】設定パネルを表示・非表示にする機能 ---
+// 設定ボタンがクリックされた時の動きを登録します。
+// これにより、カウントダウンが動いている状態でも、設定ボタンが反応します。
+configToggle.addEventListener('click', function() {
+    // 設定パネルに 'hidden' というクラスがついているかどうかをチェックし、
+    // ついていれば外し、ついていなければ付けることで、表示・非表示を切り替えます。
+    if (configPanel.classList.contains('hidden')) {
+        configPanel.classList.remove('hidden');
+    } else {
+        configPanel.classList.add('hidden');
+    }
+});
+
+// --- タイマーを動かす（1秒ごとに繰り返す） ---
 // ページを読み込んだ瞬間に一度計算して表示する
 calculateCountdown();
 
