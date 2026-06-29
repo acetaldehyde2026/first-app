@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="confetti-container" class="hidden">🎉✨ 👑 GOAL!! 👑 ✨🎉</div>
+
     <div class="timer-container">
         <button id="config-toggle" class="icon-btn">⚙️ 設定</button>
 
@@ -29,6 +31,14 @@
                 <span id="hours-count">00</span>時間
                 <span id="minutes-count">00</span>分
                 <span id="seconds-count">00</span>秒
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-track">
+                    <div id="progress-bar" class="progress-bar"></div>
+                    <div id="runner" class="runner">🏃‍♂️</div>
+                    <div class="goal-tape">🏁</div>
+                </div>
             </div>
         </div>
     </div>
