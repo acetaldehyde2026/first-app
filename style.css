@@ -105,7 +105,7 @@ h1 {
     width: 100%;
 }
 
-/* --- style.css の該当部分を以下のように修正 --- */
+/* --- style.css の該当部分を以下のように完全に上書きします --- */
 
 .progress-bar {
     position: absolute;
@@ -114,20 +114,22 @@ h1 {
     height: 100%;
     background: linear-gradient(90deg, #4dabf7, #3b5bdb);
     border-radius: 6px;
-    width: 0%;
-    /* transition: width 0.5s ease; */ /* ←これを削除、またはコメントアウト */
-    transition: width 1s linear;      /* ←【変更】1秒かけて等速でカチッと動かす設定 */
+    width: 0%; /* JSで動的に変更 */
+    
+    /* 【超重要】1秒ごとのワープにするため、アニメーションの余韻を完全にゼロにします */
+    transition: none !important; 
 }
 
 .runner {
     position: absolute;
-    left: 0%;
+    left: 0%; /* JSで動的に変更 */
     top: -22px;
     font-size: 1.6rem;
     transform: translateX(-50%);
-    /* transition: left 0.5s ease; */ /* ←これを削除、またはコメントアウト */
-    transition: left 1s linear;       /* ←【変更】バーの伸びと完全に同期して1秒ごとに進む */
     z-index: 3;
+
+    /* 【超重要】ランナーの動きの余韻も完全にゼロにして、秒数とカチッと同期させます */
+    transition: none !important; 
 }
 
 .goal-tape {
