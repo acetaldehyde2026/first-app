@@ -8,7 +8,6 @@ const configPanel = document.getElementById('config-panel');
 const targetDateInput = document.getElementById('target-date-input');
 const saveBtn = document.getElementById('save-btn');
 
-// プログレスバー関連の要素
 const progressBar = document.getElementById('progress-bar');
 const runner = document.getElementById('runner');
 const confettiContainer = document.getElementById('confetti-container');
@@ -34,9 +33,10 @@ function calculateCountdown() {
     const target = new Date(savedDate + 'T00:00:00');
     const start = new Date(startDateStr);
 
+    // ミリ秒単位での残り時間
     const diffTime = target.getTime() - now.getTime();
 
-    // --- ゴール（日付到来）時の演出判定 ---
+    // --- ゴール（日付到来）時の演出 ---
     if (diffTime <= 0) {
         daysCount.textContent = '0';
         hoursCount.textContent = '00';
@@ -45,39 +45,40 @@ function calculateCountdown() {
         
         progressBar.style.width = '100%';
         runner.style.left = '100%';
-        runner.textContent = '🏃‍♂️👑'; // 王冠をかぶる
+        runner.textContent = '🏃‍♂️👑'; 
 
-        // ゴール演出（紙吹雪パネル）を表示
         confettiContainer.classList.remove('hidden');
 
         if (timerInterval) clearInterval(timerInterval);
         return;
     }
 
-    // 通常時のゴール演出は隠す
     confettiContainer.classList.add('hidden');
     runner.textContent = '🏃‍♂️';
 
-    // 日・時・分・秒の計算
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
-    const diffMinutes = Math.floor((diffTime / (1000 * 60)) % 60);
-    const diffSeconds = Math.floor((diffTime / 1000) % 60);
+    // 1秒単位で綺麗に数字を出すため、端数を丸めて計算
+    const diffSecondsTotal = Math.floor(diffTime / 1000);
+    
+    const diffDays = Math.floor(diffSecondsTotal / (60 * 60 * 24));
+    const diffHours = Math.floor((diffSecondsTotal / (60 * 60)) % 24);
+    const diffMinutes = Math.floor((diffSecondsTotal / 60) % 60);
+    const diffSeconds = diffSecondsTotal % 60;
 
     daysCount.textContent = diffDays;
     hoursCount.textContent = String(diffHours).padStart(2, '0');
     minutesCount.textContent = String(diffMinutes).padStart(2, '0');
     secondsCount.textContent = String(diffSeconds).padStart(2, '0');
 
-    // --- プログレスバーとランナー位置の連動計算 ---
-    const totalDuration = target.getTime() - start.getTime();
-    const elapsed = now.getTime() - start.getTime();
+    // --- 【1秒単位】プログレスバーとランナーの同期計算 ---
+    // ミリ秒の細かいズレを無視し、1秒単位のタイムスタンプで進捗率を出す
+    const totalSeconds = Math.floor((target.getTime() - start.getTime()) / 1000);
+    const elapsedSeconds = Math.floor((now.getTime() - start.getTime()) / 1000);
     
-    let progressPercent = (elapsed / totalDuration) * 100;
+    let progressPercent = (elapsedSeconds / totalSeconds) * 100;
     if (progressPercent < 0) progressPercent = 0;
     if (progressPercent > 100) progressPercent = 100;
 
-    // バーの長さとランナーの位置を同じ％で同期させる
+    // 1秒単位の％を適用
     progressBar.style.width = `${progressPercent}%`;
     runner.style.left = `${progressPercent}%`;
 }
@@ -85,6 +86,7 @@ function calculateCountdown() {
 function startUpdateTimer() {
     if (timerInterval) clearInterval(timerInterval);
     calculateCountdown();
+    // 1秒（1000ミリ秒）ごとに正確に実行
     timerInterval = setInterval(calculateCountdown, 1000);
 }
 
@@ -99,9 +101,7 @@ saveBtn.addEventListener('click', function() {
     
     if (selectedDate) {
         const now = new Date();
-        // 1. 目標日を保存
         localStorage.setItem('targetDate', selectedDate);
-        // 2. スタートした「今の瞬間」をプログレスバーの起点として保存
         localStorage.setItem('startDate', now.toISOString());
         
         startUpdateTimer();
