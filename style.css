@@ -105,6 +105,8 @@ h1 {
     width: 100%;
 }
 
+/* --- style.css の該当部分を以下のように修正 --- */
+
 .progress-bar {
     position: absolute;
     left: 0;
@@ -112,17 +114,19 @@ h1 {
     height: 100%;
     background: linear-gradient(90deg, #4dabf7, #3b5bdb);
     border-radius: 6px;
-    width: 0%; /* JSで動的に変更 */
-    transition: width 0.5s ease;
+    width: 0%;
+    /* transition: width 0.5s ease; */ /* ←これを削除、またはコメントアウト */
+    transition: width 1s linear;      /* ←【変更】1秒かけて等速でカチッと動かす設定 */
 }
 
 .runner {
     position: absolute;
-    left: 0%; /* JSで動的に変更 */
+    left: 0%;
     top: -22px;
     font-size: 1.6rem;
     transform: translateX(-50%);
-    transition: left 0.5s ease;
+    /* transition: left 0.5s ease; */ /* ←これを削除、またはコメントアウト */
+    transition: left 1s linear;       /* ←【変更】バーの伸びと完全に同期して1秒ごとに進む */
     z-index: 3;
 }
 
