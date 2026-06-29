@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デイカウントダウン</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="timer-container">
+        <button id="config-toggle" class="icon-btn">⚙️ 設定</button>
+
+        <div id="config-panel" class="hidden">
+            <h3>目標となる日付を設定</h3>
+            <input type="date" id="target-date-input">
+            <button id="save-btn">保存して開始</button>
+        </div>
+
+        <div class="display-area">
+            <h1>目標の日まで</h1>
+            <div id="countdown-display">
+                <span class="prefix">あと</span>
+                <span id="days-count">--</span>
+                <span class="suffix">日</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
