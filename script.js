@@ -43,7 +43,7 @@ function calculateCountdown() {
         
         progressBar.style.width = '100%';
         runner.style.left = '100%';
-        runner.textContent = '🏃‍♂️👑'; 
+        runner.textContent = '🏃‍➡️👑'; 
 
         confettiContainer.classList.remove('hidden');
 
@@ -52,7 +52,7 @@ function calculateCountdown() {
     }
 
     confettiContainer.classList.add('hidden');
-    runner.textContent = '🏃‍♂️';
+    runner.textContent = '🏃‍➡️';
 
     // 1秒単位の残りトータル秒数
     const diffSecondsTotal = Math.floor(diffTime / 1000);
