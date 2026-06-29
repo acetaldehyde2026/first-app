@@ -1,0 +1,101 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.timer-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    position: relative;
+    width: 320px;
+}
+
+/* 設定ボタン（右上） */
+.icon-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    color: #666;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+.icon-btn:hover { color: #333; }
+
+/* 設定パネル */
+#config-panel {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+#config-panel h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #444;
+}
+input[type="date"] {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+/* メイン表示 */
+h1 {
+    font-size: 1.2rem;
+    color: #888;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.1em;
+}
+
+#countdown-display {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    color: #333;
+}
+
+#days-count {
+    font-size: 5.5rem;
+    font-weight: bold;
+    color: #ff4757; /* 目立つ赤・ピンク系 */
+    margin: 0 10px;
+    line-height: 1;
+}
+
+.prefix, .suffix {
+    font-size: 1.5rem;
+    color: #444;
+    font-weight: bold;
+}
+
+/* 共通ボタン */
+#save-btn {
+    background-color: #2ed573;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+#save-btn:hover { background-color: #26af5f; }
+
+/* 非表示にするためのクラス */
+.hidden {
+    display: none !important;
+}
