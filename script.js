@@ -17,7 +17,6 @@ let timerInterval = null;
 // --- カウントダウンとプログレスバーの計算 ---
 function calculateCountdown() {
     const savedDate = localStorage.getItem('targetDate');
-    const startDateStr = localStorage.getItem('startDate');
     
     if (!savedDate) {
         daysCount.textContent = '--';
@@ -31,7 +30,6 @@ function calculateCountdown() {
 
     const now = new Date();
     const target = new Date(savedDate + 'T00:00:00');
-    const start = new Date(startDateStr);
 
     // ミリ秒単位での残り時間
     const diffTime = target.getTime() - now.getTime();
@@ -56,7 +54,7 @@ function calculateCountdown() {
     confettiContainer.classList.add('hidden');
     runner.textContent = '🏃‍♂️';
 
-    // 1秒単位で綺麗に数字を出すため、端数を丸めて計算
+    // 1秒単位の残りトータル秒数
     const diffSecondsTotal = Math.floor(diffTime / 1000);
     
     const diffDays = Math.floor(diffSecondsTotal / (60 * 60 * 24));
@@ -64,21 +62,19 @@ function calculateCountdown() {
     const diffMinutes = Math.floor((diffSecondsTotal / 60) % 60);
     const diffSeconds = diffSecondsTotal % 60;
 
+    // デジタル数字の更新
     daysCount.textContent = diffDays;
     hoursCount.textContent = String(diffHours).padStart(2, '0');
     minutesCount.textContent = String(diffMinutes).padStart(2, '0');
     secondsCount.textContent = String(diffSeconds).padStart(2, '0');
 
-    // --- 【1秒単位】プログレスバーとランナーの同期計算 ---
-    // ミリ秒の細かいズレを無視し、1秒単位のタイムスタンプで進捗率を出す
-    const totalSeconds = Math.floor((target.getTime() - start.getTime()) / 1000);
-    const elapsedSeconds = Math.floor((now.getTime() - start.getTime()) / 1000);
-    
-    let progressPercent = (elapsedSeconds / totalSeconds) * 100;
-    if (progressPercent < 0) progressPercent = 0;
-    if (progressPercent > 100) progressPercent = 100;
+    // --- 【修正の核心】ランナーを1秒ごとに確実に目視で動かす計算 ---
+    // 「現在の秒数（0〜59）」を取得し、1分間の進捗率に変換します
+    // 例：現在の秒数が30秒なら、30/60 * 100 = 50% の位置にランナーがパッと移動します
+    const currentSeconds = now.getSeconds();
+    const progressPercent = (currentSeconds / 60) * 100;
 
-    // 1秒単位の％を適用
+    // 1秒ごとにカチッとワープするように％を適用
     progressBar.style.width = `${progressPercent}%`;
     runner.style.left = `${progressPercent}%`;
 }
@@ -86,7 +82,6 @@ function calculateCountdown() {
 function startUpdateTimer() {
     if (timerInterval) clearInterval(timerInterval);
     calculateCountdown();
-    // 1秒（1000ミリ秒）ごとに正確に実行
     timerInterval = setInterval(calculateCountdown, 1000);
 }
 
