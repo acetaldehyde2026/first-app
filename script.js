@@ -67,7 +67,9 @@ function startUpdateTimer() {
     timerInterval = setInterval(calculateCountdown, 1000);
 }
 
-// --- 4. 【復活】設定ボタンを押したときの開閉処理 ---
+// --- 4. 【修正のポイント】設定ボタンを押したときの開閉処理 ---
+// 設定ボタンのクリックイベントを、カウントダウンのループ処理（StartUpdateTimer内）から、
+// 完全に「外側」に独立して配置しました。これにより、いつでも正常に開閉します。
 configToggle.addEventListener('click', function() {
     configPanel.classList.toggle('hidden');
     // パネルが開いたら、iPad等でカレンダーを押しやすくするためにフォーカスを当てる
