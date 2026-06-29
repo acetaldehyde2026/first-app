@@ -127,3 +127,22 @@ input[type="date"] {
     -webkit-appearance: none; /* iOS独自のスタイルをリセット */
     background-color: #fff;
 }
+
+/* 追加する「時間・分・秒」の見た目 */
+.time-sub {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: bold;
+    margin-top: 15px;
+    background-color: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    letter-spacing: 0.05em;
+}
+
+.time-sub span {
+    color: #333;
+    font-variant-numeric: tabular-nums; /* 数字の幅を揃えてガタツキを防ぐ */
+    margin: 0 2px;
+}
